@@ -1,4 +1,4 @@
-package hello;
+package org.welshri.controllers;
 
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.stereotype.Controller;
@@ -9,22 +9,22 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 @Controller
 @EnableAutoConfiguration
-public class SampleController {
+@RequestMapping("/basic")
+public class BasicController {
 
 	/**
 	 * Most basic - no params or uri to inspect
-	 * @return
+	 * http://localhost:8080/
 	 */
     @RequestMapping("/")
     @ResponseBody
-    String name() {
+    String helloWorld() {
         return "Hello World!";
     }
     
     /**
      * Deals with a param
-     * @param firstName
-     * @return
+     * http://localhost:8080/basic/personal?firstName=jim
      */
     @RequestMapping("/personal")
     @ResponseBody
@@ -34,14 +34,12 @@ public class SampleController {
 
     /**
      * Deals with a uri
-     * @param args
-     * @throws Exception
+     * http://localhost:8080/basic/pet/rufus
      */
-    @RequestMapping("/employee/{employeeId}")
+    @RequestMapping("/pet/{id}")
     @ResponseBody
-    String helloEmployee(@PathVariable String employeeId) {
-    	System.out.println("debug 100");
-        return "Hello valued employee " + employeeId + "!";
+    String helloEmployee(@PathVariable String id) {
+        return "Hello valued pet " + id + "!";
     }
     
 

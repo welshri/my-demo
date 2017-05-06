@@ -12,3 +12,4 @@ CMD ["java" ,"-jar","/root/.m2/repository/org/welshri/basic-rest-demonstrator/0.
 #docker build . -t welshri/java_one
 #docker run --rm -it -d -p8080:8080 welshri/java_one
 #curl 0.0.0.0:8080/employee/Bob
+#docker stop welshri/java_one

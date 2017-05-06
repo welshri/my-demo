@@ -1,4 +1,4 @@
-package hello;
+package org.welshri.controllers;
 
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Controller;
@@ -7,8 +7,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
-public class SampleMVCController {
+public class MVCController {
 
+	/**
+	 * http://localhost:8080/greeting
+	 * @param name
+	 * @param model
+	 * @return
+	 */
     @RequestMapping("/greeting")
     public String greeting(@RequestParam(value="name", required=false, defaultValue="World") String name, Model model) {
         model.addAttribute("name", name);

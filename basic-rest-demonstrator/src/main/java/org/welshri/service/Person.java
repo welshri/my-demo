@@ -1,9 +1,9 @@
-package person;
+package org.welshri.service;
 
 public abstract class Person {
 
-	private String firstName;
-	private String lastName;
+	protected String firstName;
+	protected String lastName;
 	
 	public String getFirstName() {
 		return firstName;
