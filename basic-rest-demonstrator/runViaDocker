@@ -1,0 +1,5 @@
+docker build . --no-cache -t welshri/java_one
+sleep 10
+docker run --rm -it -d -p8080:8080 welshri/java_one
+sleep 10
+curl 0.0.0.0:8080/basic/
