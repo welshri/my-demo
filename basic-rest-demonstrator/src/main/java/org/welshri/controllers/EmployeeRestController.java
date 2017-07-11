@@ -1,6 +1,7 @@
 package org.welshri.controllers;
 
 import java.util.Map;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
@@ -55,6 +56,18 @@ public class EmployeeRestController {
 		return e;
 	}
 	
+	@RequestMapping(value = "/count")
+	@ResponseBody
+	public Long getEmployeeCount(@RequestParam Map<String,String> requestParams) {
+		Optional<String> firstName =  Optional.ofNullable(requestParams.get("firstName"));
+		
+		if (requestParams.size() != 1 || !firstName.isPresent()) {
+			throw new RuntimeException("Only firstName parameter is supported at present");
+		}
+
+		return employeeService.getAllEmployeesFilteredFirstNameCount(firstName.get());	
+		
+	}
 	
 	
 	

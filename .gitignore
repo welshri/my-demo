@@ -1,0 +1,8 @@
+.classpath
+.project
+.metadata
+.settings
+target
+*.class
+*.jar
+*.war

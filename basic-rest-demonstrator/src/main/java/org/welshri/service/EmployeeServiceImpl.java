@@ -27,4 +27,13 @@ public class EmployeeServiceImpl implements EmployeeService {
 		}
 		return e;
 	}
+	
+	@Override
+	public Long getAllEmployeesFilteredFirstNameCount(String firstName) {
+		 return employeeDAO.getEmployees()
+			.stream()
+			.parallel()
+			.filter(e -> e.getFirstName().equalsIgnoreCase(firstName))
+			.count();
+	}
 }

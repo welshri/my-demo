@@ -4,20 +4,25 @@ import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.nio.channels.AsynchronousFileChannel;
 import java.nio.channels.CompletionHandler;
+import java.nio.file.DirectoryStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardOpenOption;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import org.springframework.stereotype.Component;
+import org.springframework.util.StringUtils;
+import org.welshri.dao.employee.Employee;
 
 @Component
 public class AsyncFileHelper {
 	
-	public static final String REPO_ROOT  = "/home/richard/data/persistence";
+	private String path;
+	
 /*	
  * TODO helped when work in progress but superceded now
  * 
@@ -44,8 +49,8 @@ public class AsyncFileHelper {
 		Thread.sleep(3000); //so we dont exit before we see some output for debugging purposes
 	}
 */
-	public void writeData(final String target, final byte[] data) {
-		Path path = Paths.get(target);
+	public void writeData(final String subject, final String target, final byte[] data) {
+		Path path = Paths.get(this.getPath() + subject + "/" + target);
 		if (!Files.exists(path)) {
 			try {
 				Files.createFile(path);
@@ -90,8 +95,8 @@ public class AsyncFileHelper {
 	 * @param target
 	 * @return
 	 */
-	public List<String> getData(final String target) {
-		Path path = Paths.get(target);
+	public List<String> getData(final String subject, final String target) {
+		Path path = Paths.get(this.getPath() + subject + "/" + target);
 		List<String> data = null;
 		if (Files.exists(path)) {
 			try {
@@ -102,6 +107,29 @@ public class AsyncFileHelper {
 			}
 		}
 		return data;
+	}
+	
+	public String getPath() {
+		
+		if (StringUtils.isEmpty(path)) {
+			Map<String, String> env = System.getenv();
+	        path = env.get("HOME") + "/data/persistence/";
+		}
+		
+		return path;
+	}
+
+	public List<List<String>> getData(String subject) {
+		List<List<String>> rawData = new ArrayList<List<String>>();
+        try (DirectoryStream<Path> directoryStream = Files.newDirectoryStream(Paths.get(this.getPath() + subject + "/"))) {
+            for (Path path : directoryStream) {
+            	rawData.add(this.getData(subject, path.getFileName().toString()));
+            }
+        } catch (IOException e) {
+        	System.err.println(e.getStackTrace());
+        }
+		return rawData;
+        
 	}
 
 }

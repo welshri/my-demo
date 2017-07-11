@@ -38,7 +38,7 @@ public class EmployeeRestControllerTest {
 	}
 	
 	/**
-	 *  Assumes that the above test has run successfully
+	 *  Assumes that the first test has run successfully thus adding the Queen
 	 */
 	@Test
 	public void getEmployee() {
@@ -58,4 +58,43 @@ public class EmployeeRestControllerTest {
 			Assert.fail(e.toString());
 		}
 	}
+	
+	/**
+	 *  Assumes that the first test has run successfully thus adding the Queen
+	 */
+	@Test
+	public void getEmployeeCount() {
+		try {
+			String uri = "count?firstName=Elizabeth";
+			Content content = Request.Get(LOCAL_URL + uri).execute().returnContent();
+			String response = content.asString();
+			String expect = "1";
+			Assert.assertEquals(expect, response);
+			System.out.println(response);
+		} catch (ClientProtocolException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			Assert.fail(e.toString());
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			Assert.fail(e.toString());
+		}
+		
+		try {
+			String uri = "count?firstName=SuchANameThatNoOneWouldEverUse";
+			Content content = Request.Get(LOCAL_URL + uri).execute().returnContent();
+			String response = content.asString();
+			String expect = "0";
+			Assert.assertEquals(expect, response);
+			System.out.println(response);
+		} catch (ClientProtocolException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			Assert.fail(e.toString());
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			Assert.fail(e.toString());
+		}
+	}
+
 }

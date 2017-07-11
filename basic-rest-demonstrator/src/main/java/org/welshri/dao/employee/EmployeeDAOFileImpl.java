@@ -1,5 +1,6 @@
 package org.welshri.dao.employee;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,13 +33,13 @@ public class EmployeeDAOFileImpl implements EmployeeDAO {
 			key = this.transformToBuffer(employee, transformed);
 		}
 		if (key != null) {
-			asyncFileHelper.writeData(AsyncFileHelper.REPO_ROOT + "/" + SUBJECT + "/" + key + ".txt",
+			asyncFileHelper.writeData(SUBJECT, key + ".txt",
 					transformed.toString().getBytes());
 		}
 	}
 
 	/**
-	 * SKELETON ONLY - check for new line chars for example.
+	 * SKELETON ONLY - has no checks for new line chars for example.
 	 * 
 	 * @param employee
 	 * @return
@@ -74,11 +75,26 @@ public class EmployeeDAOFileImpl implements EmployeeDAO {
 
 	public Employee getEmployee(Integer employeeNumber) {
 		Employee e = null;
-		List<String> fileData = asyncFileHelper.getData(AsyncFileHelper.REPO_ROOT + "/" + SUBJECT + "/" + String.valueOf(employeeNumber) + ".txt");
+		List<String> fileData = asyncFileHelper.getData(SUBJECT, String.valueOf(employeeNumber) + ".txt");
 		if (!CollectionUtils.isEmpty(fileData)) {
 			e = new Employee(fileData.get(0), fileData.get(1), Integer.valueOf(fileData.get(2)), fileData.get(3));
 		}
 		return e;
 		
 	}
+
+	@Override
+	public List<Employee> getEmployees() {
+		List<List<String>> rawEmployees = asyncFileHelper.getData(SUBJECT);
+		List<Employee> employees = new ArrayList<Employee>(rawEmployees.size());
+		
+		for (List<String> raw : rawEmployees) {
+			if (!CollectionUtils.isEmpty(raw)) {
+				Employee e = new Employee(raw.get(0), raw.get(1), Integer.valueOf(raw.get(2)), raw.get(3));
+				employees.add(e);
+			}
+		}
+		return employees;
+	}
+
 }

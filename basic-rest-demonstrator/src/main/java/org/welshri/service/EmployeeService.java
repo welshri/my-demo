@@ -6,4 +6,6 @@ public interface EmployeeService {
 	
 	public Employee getEmployee(Integer employeeNumber);
 
+	public Long getAllEmployeesFilteredFirstNameCount(String firstName);
+
 }

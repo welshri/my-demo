@@ -7,6 +7,7 @@ WORKDIR ./my-demo/basic-rest-demonstrator
 RUN pwd
 RUN ls -al
 RUN mvn clean install -Dmaven.test.skip=true
+RUN mkdir -p data/persistence/employee
 EXPOSE 8080
 CMD ["java" ,"-jar","/root/.m2/repository/org/welshri/basic-rest-demonstrator/0.0.1-SNAPSHOT/basic-rest-demonstrator-0.0.1-SNAPSHOT.jar"]
 #docker build . -t welshri/java_one
